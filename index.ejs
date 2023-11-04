@@ -10,13 +10,20 @@
 </head>
 
 <body class="container">
-  <header>
-    <h1 class="display-4"><%=title %></h1>
-  </header>
-  <div role="main">
-    <p><%=content %></p>
-    <p><a href="/other">Other Pageに移動 &gt;&gt;</a></p>
-  </div>
-</body>
+    <header>
+        <h1 class="display-4"><%=title %></h1>
+    </header>
+    <div role="main">
+        <p><%=content %></p>
+        <table class="table">
+            <% for(var key in data) { %>
+            <tr>
+                <th><%= key %></th>
+                <td><%= data[key] %></td>
+            </tr>
+            <% } %>
+        </table>
+    </div>
+ </body>
 
 </html>
