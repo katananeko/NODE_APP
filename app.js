@@ -10,13 +10,6 @@ const style_css = fs.readFileSync('./style.css', 'utf8');
 
 var server = http.createServer(getFromClient);
 
-var data = {
-    'Taro': '09-000-000',
-    'Hanako': '080-888-888',
-    'Sachiko': '070-777-777',
-    'Ichiro': '060-666-666'
-};
-
 server.listen(3000);
 console.log('Server start!');
 
@@ -64,38 +57,27 @@ function response_index(req, res) {
 // otherのアクセス処理
 function response_other(req, res) {
     var msg = "これはOtherページです。";
+    var content = ejs.render(other_page, {
+        title: "Other",
+        content: msg,
+        data: data2,
+        filename: 'data_item'
+    });
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(content);
+    res.end();
+}
 
-    // POSTアクセス時の処理
-    if (req.method == 'POST') {
-        var body = '';
+var data = {
+    'Taro': '09-000-000',
+    'Hanako': '080-888-888',
+    'Sachiko': '070-777-777',
+    'Ichiro': '060-666-666'
+};
 
-        // データ受信のイベント処理
-        req.on('data', (data) => {
-            body += data;
-        });
-        
-        // データ受信終了のイベント処理
-        req.on('end', () => {
-            var post_data = qs.parse(body);
-            msg += 'あなたは、「' + post_data.msg + '」と書きました。';
-            var content = ejs.render(other_page, {
-                title: "Other",
-                content: msg,
-            });
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write(content);
-            res.end();
-        });
-
-    // GETアクセス時の処理
-    } else {
-        var msg = "ページがありません";
-        var content = ejs.render(other_page, {
-            title: "Other",
-            content: msg,
-        });
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(content);
-        res.end();
-    }
+var data2 = {
+    'Taro': ['taro@yamada', '09-999-999', 'Tokyo'],
+    'Hanako': ['hanako@flower', '080-888-888', 'Yokohama'],
+    'Sachiko': ['sachi@happy', '070-777-777', 'Nagoya'],
+    'Ichiro': ['ichi@baseball', '060-666-666', 'USA'],
 }
