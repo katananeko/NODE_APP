@@ -54,6 +54,7 @@ function response_index(req, res) {
         title: "Indexページ",
         content: msg,
         data: data,
+        filename: 'data_item'
     });
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write(content);
