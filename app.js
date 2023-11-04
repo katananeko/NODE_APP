@@ -42,12 +42,28 @@ function getFromClient(req, res) {
 
 // indexのアクセス処理
 function response_index(req, res) {
-    var msg = "これはIndexページです。";
+    if (req.method == 'POST') {
+        var body = '';
+
+        req.on('data', (data) => {
+            body += data;
+        });
+
+        req.on('end', () => {
+            data = qs.parse(body);
+            write_index(req, res);
+        });
+    } else {
+        write_index(req, res);
+    }
+}
+
+function write_index(req, res) {
+    var msg = "※伝言を表示します。";
     var content = ejs.render(index_page, {
         title: "Indexページ",
         content: msg,
         data: data,
-        filename: 'data_item'
     });
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write(content);
@@ -68,12 +84,7 @@ function response_other(req, res) {
     res.end();
 }
 
-var data = {
-    'Taro': '09-000-000',
-    'Hanako': '080-888-888',
-    'Sachiko': '070-777-777',
-    'Ichiro': '060-666-666'
-};
+var data = { msg: 'no message...'};
 
 var data2 = {
     'Taro': ['taro@yamada', '09-999-999', 'Tokyo'],
