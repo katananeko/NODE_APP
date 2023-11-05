@@ -1,0 +1,10 @@
+{"id":"nk","msg":"こんにちは！"}
+{"id":"nk","msg":""}
+{"id":"nk","msg":""}
+{"id":"nk","msg":""}
+{"id":"nk","msg":"肉！"}
+{"id":"nk","msg":"niku"}
+{"id":"nk","msg":"こんにちは！"}
+{"id":"nk","msg":"niku"}
+{"id":"nk","msg":"niku"}
+{"id":"nk","msg":"こんにちは！"}
