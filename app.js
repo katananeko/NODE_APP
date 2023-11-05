@@ -51,6 +51,7 @@ function response_index(req, res) {
 
         req.on('end', () => {
             data = qs.parse(body);
+            setCookie('msg', data.msg, res);
             write_index(req, res);
         });
     } else {
@@ -60,16 +61,34 @@ function response_index(req, res) {
 
 function write_index(req, res) {
     var msg = "※伝言を表示します。";
+    var cookie_data = getCookie('msg', req);
     var content = ejs.render(index_page, {
         title: "Indexページ",
         content: msg,
         data: data,
+        cookie_data: cookie_data,
     });
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write(content);
     res.end();
 }
 
+function setCookie(key, value, res) {
+    var cookie = escape(value);
+    res.setHeader('Set-Cookie', [key + '=' + cookie]);
+}
+
+function getCookie(key, req) {
+    var cookie_data = req.headers.cookie != undefined ? req.headers.cookie : '';
+    var data = cookie_data.split(';');
+    for (var i in data) {
+        if (data[i].trim().startsWith(key + '=')) {
+            var result = data[i].trim().substring(key.length + 1);
+            return unescape(result);
+        }
+    }
+    return '';
+}
 // otherのアクセス処理
 function response_other(req, res) {
     var msg = "これはOtherページです。";
